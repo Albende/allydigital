@@ -14,6 +14,7 @@ import {
   Menu,
   X
 } from 'lucide-react';
+import NavBar from './components/NavBar';
 
 /**
  * DataMatrixLanding — Main Landing Page Component
@@ -219,74 +220,7 @@ const DataMatrixLanding = () => {
         </div>
       </div>
 
-      {/* Navigation */}
-      <nav className="fixed w-full z-50 bg-gray-900/80 backdrop-blur border-b border-green-500/20">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex justify-between h-16 items-center">
-            {/* Logo/Brand */}
-            <div className="flex items-center space-x-2">
-              <Activity className="text-green-400" />
-              <span className="text-2xl font-mono font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-emerald-500">
-                ALLY.MATRIX
-              </span>
-            </div>
-
-            {/* Desktop Navigation Links */}
-            <div className="hidden md:flex items-center space-x-8">
-              {['SERVICES', 'ABOUT', 'PROJECTS', 'CONTACT'].map((item) => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  className="font-mono text-sm tracking-wider hover:text-green-300 transition-colors relative group"
-                >
-                  <span className="relative z-10">{item}</span>
-                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-green-400 scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
-                </a>
-              ))}
-            </div>
-
-            {/* Mobile Hamburger Button */}
-            <div className="md:hidden">
-              {!mobileMenuOpen ? (
-                <button
-                  onClick={() => setMobileMenuOpen(true)}
-                  aria-label="Open Menu"
-                  className="text-green-400 hover:text-green-300"
-                >
-                  <Menu />
-                </button>
-              ) : (
-                <button
-                  onClick={() => setMobileMenuOpen(false)}
-                  aria-label="Close Menu"
-                  className="text-green-400 hover:text-green-300"
-                >
-                  <X />
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Navigation Menu Overlay */}
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-gray-900/90 border-t border-green-500/20">
-            <div className="flex flex-col space-y-4 px-4 py-4 font-mono">
-              {['SERVICES', 'ABOUT', 'PROJECTS', 'CONTACT'].map((item) => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-sm tracking-wider hover:text-green-300 transition-colors"
-                >
-                  {item}
-                </a>
-              ))}
-            </div>
-          </div>
-        )}
-      </nav>
-
+      <NavBar/>
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center pt-16">
         {/* Subtle Grid BG */}
