@@ -29,6 +29,78 @@ const DataMatrixLanding = () => {
 
   // ---------- Mobile Menu State ----------
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // 1) Ref for the stats section
+  const statsRef = useRef(null);
+
+// 2) Whether stats are in view
+  const [areStatsVisible, setAreStatsVisible] = useState(false);
+
+// 3) State to hold the "current count" for each stat
+//    Initialize them all to 0. 
+//    (The length here matches the length of your 'stats' array.)
+  const [counts, setCounts] = useState(stats.map(() => 0));
+
+  useEffect(() => {
+    if (!statsRef.current) return;
+  
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setAreStatsVisible(true);
+          // Once it’s visible, we can unobserve so the counting doesn't restart
+          observer.unobserve(statsRef.current);
+        }
+      },
+      { threshold: 0.2 } // or whatever visibility threshold you prefer
+    );
+  
+    observer.observe(statsRef.current);
+  
+    return () => observer.disconnect();
+  }, []);
+  
+  useEffect(() => {
+    if (!areStatsVisible) return;
+  
+    // We'll parse the numeric part of stat.value (to handle "100+", "99.9%", etc.)
+    const numericTargets = stats.map((stat) => {
+      // Extract just the digits/decimals
+      const numeric = parseFloat(stat.value.replace(/[^\d.]/g, "")) || 0;
+      return numeric;
+    });
+  
+    const incrementSpeed = 20; // ms between increments
+    const step = 1;           // how much to increment each time (if integer)
+  
+    const interval = setInterval(() => {
+      setCounts((prev) => {
+        let allDone = true;
+        const next = prev.map((count, i) => {
+          const target = numericTargets[i];
+  
+          // If there's a decimal (like 99.9), you can increment by smaller steps
+          const isDecimal = String(target).includes(".");
+          const floatStep = isDecimal ? 0.1 : step;
+  
+          if (count < target) {
+            allDone = false;
+            // Make sure we don't overshoot the target
+            const incremented = count + floatStep;
+            return incremented >= target ? target : parseFloat(incremented.toFixed(1));
+          }
+          return count;
+        });
+  
+        // If we've hit all targets, stop
+        if (allDone) clearInterval(interval);
+        return next;
+      });
+    }, incrementSpeed);
+  
+    return () => clearInterval(interval);
+  }, [areStatsVisible]);
+  
+
 
   useEffect(() => {
     let timer;
@@ -426,29 +498,35 @@ const DataMatrixLanding = () => {
       </section>
 
       {/* Data Visualization Stats Section */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-green-900/20" />
-        <div className="max-w-7xl mx-auto px-4 relative">
-          <div className="grid gap-8 md:grid-cols-4">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center group relative">
-                <div className="absolute inset-0 bg-green-500/5 transform -skew-y-6" />
-                <div className="relative p-6">
-                  <div className="mb-4 w-16 h-16 mx-auto bg-green-500/10 rounded-lg flex items-center justify-center">
-                    {stat.icon}
-                  </div>
-                  <div className="text-3xl font-mono font-bold mb-2">
-                    {stat.value}
-                  </div>
-                  <div className="text-green-400/60 font-mono text-sm">
-                    {stat.label}
-                  </div>
-                </div>
+<section ref={statsRef} className="relative py-20 overflow-hidden">
+  <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-green-900/20" />
+  <div className="max-w-7xl mx-auto px-4 relative">
+    <div className="grid gap-8 md:grid-cols-4">
+      {stats.map((stat, index) => {
+        // Get any non-numeric suffix (e.g. "+" or "%")
+        const suffix = stat.value.replace(/[\d.]/g, "");
+        
+        return (
+          <div key={index} className="text-center group relative">
+            <div className="absolute inset-0 bg-green-500/5 transform -skew-y-6" />
+            <div className="relative p-6">
+              <div className="mb-4 w-16 h-16 mx-auto bg-green-500/10 rounded-lg flex items-center justify-center">
+                {stat.icon}
               </div>
-            ))}
+              <div className="text-3xl font-mono font-bold mb-2">
+                {counts[index]}{suffix}
+              </div>
+              <div className="text-green-400/60 font-mono text-sm">
+                {stat.label}
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
 
       {/* Contact Matrix */}
       <section id="contact" className="relative py-20 px-4">
@@ -748,7 +826,7 @@ const stats = [
   },
   {
     icon: <Activity className="text-green-400" size={24} />,
-    value: "99.9%",
+    value: "99%",
     label: "SYSTEM.UPTIME"
   }
 ];
