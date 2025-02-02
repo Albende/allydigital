@@ -33,7 +33,7 @@ const NavBar = () => {
             <Link to="/" className="flex items-center space-x-2">
                 <Activity className="text-green-400" />
                 <span className="text-2xl font-mono font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-emerald-500">
-      ALLY.MATRIX
+      AIORBIS.TECH
                 </span>
             </Link>
         </div>
