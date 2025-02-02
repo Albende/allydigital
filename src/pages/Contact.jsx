@@ -32,7 +32,7 @@ const Contact = () => {
             GET.IN.TOUCH
           </h1>
           <p className="text-green-300/60 mt-4 mb-6 font-mono">
-            We’re ready to connect. Let’s bring your ideas to life in the <strong>ALLY.MATRIX</strong>.
+            We’re ready to connect. Let’s bring your ideas to life in the <strong>AIORBIS.TECH</strong>.
           </p>
 
           {/* Quick CTA button (scroll to form) */}
@@ -109,7 +109,7 @@ const Contact = () => {
               </h3>
               <p className="flex items-center gap-2">
                 <Mail size={18} className="text-green-400" />
-                hello@allydigitalagency.com
+                hello@aiorbis.tech
               </p>
               <p className="flex items-center gap-2">
                 <Phone size={18} className="text-green-400" />
@@ -130,7 +130,7 @@ const Contact = () => {
       {/* Footer */}
       <footer className="mt-auto border-t border-green-500/20 py-8 text-center">
         <p className="text-green-300/80 font-mono">
-          &copy; {new Date().getFullYear()} ALLY.MATRIX // CONTACT.US
+          &copy; {new Date().getFullYear()} AIORBIS.TECH // CONTACT.US
         </p>
       </footer>
 

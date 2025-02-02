@@ -138,8 +138,8 @@ const DataMatrixLanding = () => {
 
   // The original text for the 3 paragraphs on the left column
   const aboutParagraphs = [
-    "At Ally Digital Agency, we transform your ideas into dynamic digital solutions. Whether you're a small business seeking growth, a tech startup scaling your innovations, or an enterprise optimizing operations, we empower your journey.",
-    "We’re not just a service provider; we’re your ally in the digital landscape. Our blend of creativity, technology, and AI-driven insights delivers results that set your brand apart.",
+    "At AIOrbis Digital Agency, we transform your ideas into dynamic digital solutions. Whether you're a small business seeking growth, a tech startup scaling your innovations, or an enterprise optimizing operations, we empower your journey.",
+    "We’re not just a service provider; we’re your orbis in the digital landscape. Our blend of creativity, technology, and AI-driven insights delivers results that set your brand apart.",
     "We’re passionate about staying ahead of the curve, ensuring our clients leverage the latest tools and strategies to excel in competitive markets."
   ];
 
@@ -240,7 +240,7 @@ const DataMatrixLanding = () => {
         <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-7xl font-bold mb-8 font-mono relative">
             <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500">
-              Ally Digital Agency
+              AIOrbis Digital Agency
             </span>
             <br />
             <span className="inline-block">
@@ -307,7 +307,7 @@ const DataMatrixLanding = () => {
       <section id="about" ref={aboutRef} className="relative py-20 px-4">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-mono font-bold mb-8 text-center">
-            ABOUT.ALLY
+            ABOUT.AIOrbis
             <span className="block text-sm text-green-500/60 mt-2">
               // who we are
             </span>
@@ -524,7 +524,7 @@ const DataMatrixLanding = () => {
                     </div>
                     <div className="flex items-center space-x-4">
                       <Binary className="text-green-400" />
-                      <span>hello@allydigitalagency.com</span>
+                      <span>hello@aiorbis.tech</span>
                     </div>
                     <div className="flex items-center space-x-4">
                       <Network className="text-green-400" />
@@ -549,7 +549,7 @@ const DataMatrixLanding = () => {
               <div className="flex items-center space-x-2 mb-6">
                 <Activity className="text-green-400" />
                 <span className="text-xl font-mono font-bold text-green-400">
-                  ALLY.MATRIX
+                  AIORBIS.TECH
                 </span>
               </div>
               <p className="text-green-300/80">
@@ -601,7 +601,7 @@ const DataMatrixLanding = () => {
 
           <div className="border-t border-green-500/20 mt-12 pt-8 text-center text-green-300/80">
             <p className="font-mono">
-              &copy; {new Date().getFullYear()} ALLY.MATRIX // ALL.RIGHTS.RESERVED
+              &copy; {new Date().getFullYear()} AIORBIS.TECH // ALL.RIGHTS.RESERVED
             </p>
           </div>
         </div>

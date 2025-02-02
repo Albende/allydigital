@@ -1,0 +1,19 @@
+{
+    "navbar": {
+      "services": "Xidmətlər",
+      "about": "Haqqında",
+      "projects": "Layihələr",
+      "contact": "Əlaqə",
+      "language": "Dil"
+    },
+    "hero": {
+      "titleLine1": "AIOrbis Rəqəmsal Agentlik",
+      "titleLine2": "Süni İntellekt əsaslı həllər Sizin İnkişafınız üçün",
+      "subtitle": "Biz sizin ideyalarınızı dinamik rəqəmsal həllərə çeviririk. Yaradıcılıq, texnologiya və süni intellektdən istifadə edərək, markanızı yüksək səviyyəyə qaldıran nəticələr əldə edirik.",
+      "initializeButton": "Sistemi Başlat"
+    },
+    "footer": {
+      "rightsReserved": "BÜTÜN.HÜQUQLAR.QORUNUR"
+    }
+  }
+  

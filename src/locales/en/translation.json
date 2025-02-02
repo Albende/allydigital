@@ -1,0 +1,19 @@
+{
+    "navbar": {
+      "services": "Services",
+      "about": "About",
+      "projects": "Projects",
+      "contact": "Contact",
+      "language": "Language"
+    },
+    "hero": {
+      "titleLine1": "AIOrbis Digital Agency",
+      "titleLine2": "AI-Powered Solutions for Your Growth",
+      "subtitle": "We transform your ideas into dynamic digital solutions. With creativity, technology, and AI-driven insights, we deliver results that set your brand apart.",
+      "initializeButton": "Initialize System"
+    },
+    "footer": {
+      "rightsReserved": "ALL.RIGHTS.RESERVED"
+    }
+  }
+  
