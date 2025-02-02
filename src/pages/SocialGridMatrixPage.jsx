@@ -108,7 +108,7 @@ const SocialGridMatrixPage = () => {
       {/* Footer */}
       <footer className="border-t border-green-500/20 py-8 text-center">
         <p className="text-green-300/80 font-mono">
-          &copy; {new Date().getFullYear()} ALLY.MATRIX // SOCIAL.GRID.MATRIX
+          &copy; {new Date().getFullYear()} AIORBIS.TECH // SOCIAL.GRID.MATRIX
         </p>
       </footer>
     </div>
