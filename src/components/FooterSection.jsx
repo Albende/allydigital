@@ -1,31 +1,26 @@
 // src/components/FooterSection.jsx
-import React from 'react';
-import { Activity } from 'lucide-react';
+import React from "react";
+import { Activity } from "lucide-react";
 
 const FooterSection = () => {
   const sections = [
     {
-      title: 'SERVICES',
+      title: "SERVICES",
       links: [
-        'AI.SOLUTIONS',
-        'WEB.DEVELOPMENT',
-        'DIGITAL.MARKETING',
-        'DATA.ANALYTICS'
-      ]
+        "AI.SOLUTIONS",
+        "WEB.DEVELOPMENT",
+        "DIGITAL.MARKETING",
+        "DATA.ANALYTICS",
+      ],
     },
     {
-      title: 'INDUSTRIES',
-      links: [
-        'E.COMMERCE',
-        'HEALTHCARE',
-        'EDUCATION',
-        'TECH.STARTUPS'
-      ]
+      title: "INDUSTRIES",
+      links: ["E.COMMERCE", "HEALTHCARE", "EDUCATION", "TECH.STARTUPS"],
     },
     {
-      title: 'RESOURCES',
-      links: ['CASE.STUDIES', 'AI.INSIGHTS', 'TECH.BLOG', 'API.DOCS']
-    }
+      title: "RESOURCES",
+      links: ["CASE.STUDIES", "AI.INSIGHTS", "TECH.BLOG", "API.DOCS"],
+    },
   ];
 
   return (
@@ -63,7 +58,8 @@ const FooterSection = () => {
         </div>
         <div className="border-t border-green-500/20 mt-12 pt-8 text-center text-green-300/80">
           <p className="font-mono">
-            &copy; {new Date().getFullYear()} AIORBIS.TECH // ALL.RIGHTS.RESERVED
+            &copy; {new Date().getFullYear()} AIORBIS.TECH //
+            ALL.RIGHTS.RESERVED
           </p>
         </div>
       </div>

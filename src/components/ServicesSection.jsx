@@ -1,15 +1,15 @@
 // src/components/ServicesSection.jsx
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 import {
   Brain,
   Monitor,
-  GridIcon,
+  Grid as GridIcon,
   Database,
   Share2,
   Activity,
-  Binary
-} from 'lucide-react';
+  Binary,
+} from "lucide-react";
 
 const services = [
   {
@@ -20,9 +20,9 @@ const services = [
       "Predictive Behavioral Analytics",
       "NLP Content Enhancement",
       "AI Marketing Algorithm",
-      "Process Automation Matrix"
+      "Process Automation Matrix",
     ],
-    link: "/services/ai-neural-core"
+    link: "/services/ai-neural-core",
   },
   {
     title: "WEB.QUANTUM.DEV",
@@ -32,9 +32,9 @@ const services = [
       "Neural E-commerce Systems",
       "Quantum Web Applications",
       "Performance Architecture",
-      "AI-Enhanced UX Protocols"
+      "AI-Enhanced UX Protocols",
     ],
-    link: "/services/web-quantum-dev"
+    link: "/services/web-quantum-dev",
   },
   {
     title: "DIGITAL.MATRIX.OPS",
@@ -44,9 +44,9 @@ const services = [
       "Content Generation Matrix",
       "Predictive Marketing AI",
       "Real-Time Analytics Grid",
-      "Performance Tracking System"
+      "Performance Tracking System",
     ],
-    link: "/services/digital-matrix-ops"
+    link: "/services/digital-matrix-ops",
   },
   {
     title: "DATA.NEXUS",
@@ -56,9 +56,9 @@ const services = [
       "Conversion Optimization AI",
       "Advanced Analytics Matrix",
       "KPI Neural Networks",
-      "Predictive Insights Engine"
+      "Predictive Insights Engine",
     ],
-    link: "/services/data-nexus"
+    link: "/services/data-nexus",
   },
   {
     title: "SOCIAL.GRID.MATRIX",
@@ -68,9 +68,9 @@ const services = [
       "Social Pattern Analysis",
       "Influence Matrix Scanner",
       "Neural Engagement System",
-      "Sentiment Analysis Core"
+      "Sentiment Analysis Core",
     ],
-    link: "/services/social-grid-matrix"
+    link: "/services/social-grid-matrix",
   },
   {
     title: "BRAND.NEURAL.FORGE",
@@ -80,15 +80,15 @@ const services = [
       "Brand Pattern Analysis",
       "Content Matrix Creation",
       "Video Enhancement Grid",
-      "Multi-Neural Translation"
+      "Multi-Neural Translation",
     ],
-    link: "/services/brand-neural-forge"
-  }
+    link: "/services/brand-neural-forge",
+  },
 ];
 
 const ServicesSection = () => {
   return (
-    <section id="services" className="relative py-20 px-4">
+    <section className="relative py-20 px-4">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-mono font-bold mb-16 text-center">
           Service.Matrix
@@ -97,7 +97,7 @@ const ServicesSection = () => {
           </span>
         </h2>
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <Link key={index} to={service.link} className="relative group">
               <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-emerald-500/10 transform scale-95 group-hover:scale-100 transition-transform" />

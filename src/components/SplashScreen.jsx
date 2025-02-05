@@ -1,5 +1,5 @@
 // src/components/SplashScreen.jsx
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 
 const SplashScreen = ({ onFinish }) => {
   const canvasRef = useRef(null);
@@ -9,7 +9,7 @@ const SplashScreen = ({ onFinish }) => {
   // Matrix rain canvas effect
   useEffect(() => {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
 
     // Make canvas responsive
     const setCanvasSize = () => {
@@ -17,9 +17,9 @@ const SplashScreen = ({ onFinish }) => {
       canvas.height = window.innerHeight;
     };
     setCanvasSize();
-    window.addEventListener('resize', setCanvasSize);
+    window.addEventListener("resize", setCanvasSize);
 
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()';
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()";
     const fontSize = 16;
     const columns = Math.floor(canvas.width / fontSize);
     const drops = new Array(columns).fill(0);
@@ -30,7 +30,10 @@ const SplashScreen = ({ onFinish }) => {
     const draw = (timestamp) => {
       if (fadeOut) {
         if (!glitchStart) glitchStart = timestamp;
-        const progress = Math.min(1, (timestamp - glitchStart) / glitchDuration);
+        const progress = Math.min(
+          1,
+          (timestamp - glitchStart) / glitchDuration
+        );
         // Gradually increase overlay opacity during glitch phase
         const overlayAlpha = 0.05 + progress * 0.25;
         ctx.fillStyle = `rgba(0, 0, 0, ${overlayAlpha})`;
@@ -44,7 +47,9 @@ const SplashScreen = ({ onFinish }) => {
           // Interpolate from bright green to a slightly muted tone
           const startGreen = 255;
           const targetGreen = 200 + Math.random() * 55;
-          const greenValue = Math.floor(startGreen - progress * (startGreen - targetGreen));
+          const greenValue = Math.floor(
+            startGreen - progress * (startGreen - targetGreen)
+          );
           ctx.fillStyle = `rgb(0, ${greenValue}, 0)`;
           ctx.fillText(text, i * fontSize + offset, drops[i] * fontSize);
           drops[i] += 1 + progress * 1.5;
@@ -54,9 +59,9 @@ const SplashScreen = ({ onFinish }) => {
         }
       } else {
         // Normal matrix rain drawing
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#0F0';
+        ctx.fillStyle = "#0F0";
         ctx.font = `${fontSize}px monospace`;
         for (let i = 0; i < drops.length; i++) {
           const text = letters[Math.floor(Math.random() * letters.length)];
@@ -71,7 +76,7 @@ const SplashScreen = ({ onFinish }) => {
     };
 
     requestAnimationFrame(draw);
-    return () => window.removeEventListener('resize', setCanvasSize);
+    return () => window.removeEventListener("resize", setCanvasSize);
   }, [fadeOut]);
 
   // Trigger fade-out (glitch) phase after 3 seconds
@@ -95,12 +100,12 @@ const SplashScreen = ({ onFinish }) => {
       // Update CSS variables for the radial gradient
       const xPercent = ((e.clientX / window.innerWidth) * 100).toFixed(2);
       const yPercent = ((e.clientY / window.innerHeight) * 100).toFixed(2);
-      document.documentElement.style.setProperty('--mouse-x', `${xPercent}%`);
-      document.documentElement.style.setProperty('--mouse-y', `${yPercent}%`);
+      document.documentElement.style.setProperty("--mouse-x", `${xPercent}%`);
+      document.documentElement.style.setProperty("--mouse-y", `${yPercent}%`);
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   // Remove each ripple after its 1-second animation completes
@@ -118,7 +123,7 @@ const SplashScreen = ({ onFinish }) => {
       <canvas
         ref={canvasRef}
         className="absolute inset-0 z-0"
-        style={{ background: 'black' }}
+        style={{ background: "black" }}
       />
 
       {/* Animated mouse effects layer */}
@@ -128,7 +133,7 @@ const SplashScreen = ({ onFinish }) => {
           className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0,255,128,0.1) 0%, transparent 70%)',
+              "radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0,255,128,0.1) 0%, transparent 70%)",
           }}
         />
         {/* Vertical animated data streams */}
@@ -141,8 +146,8 @@ const SplashScreen = ({ onFinish }) => {
                 left: `${i * 5}%`,
                 animationDuration: `${2 + Math.random() * 2}s`,
                 animationDelay: `${i * 0.1}s`,
-                transform: 'translateY(-100%)',
-                animation: 'dataStream 3s linear infinite',
+                transform: "translateY(-100%)",
+                animation: "dataStream 3s linear infinite",
               }}
             />
           ))}
@@ -155,9 +160,9 @@ const SplashScreen = ({ onFinish }) => {
             style={{
               left: ripple.x,
               top: ripple.y,
-              width: '20px',
-              height: '20px',
-              transform: 'translate(-50%, -50%)',
+              width: "20px",
+              height: "20px",
+              transform: "translate(-50%, -50%)",
             }}
           />
         ))}
@@ -166,10 +171,12 @@ const SplashScreen = ({ onFinish }) => {
       {/* Text content */}
       <div
         className={`relative z-20 text-center transition-all duration-500 ${
-          fadeOut ? 'animate-glitch text-green-500' : 'text-green-400'
+          fadeOut ? "animate-glitch text-green-500" : "text-green-400"
         }`}
       >
-        <h1 className="text-4xl md:text-6xl font-mono mb-4">Welcome to AIOrbis</h1>
+        <h1 className="text-4xl md:text-6xl font-mono mb-4">
+          Welcome to AIOrbis
+        </h1>
         <p className="text-lg md:text-2xl">Initializing digital matrix...</p>
       </div>
 

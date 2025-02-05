@@ -1,28 +1,28 @@
 // src/components/StatsSection.jsx
-import React, { useEffect, useRef, useState } from 'react';
-import { BarChart, Brain, Network, Activity } from 'lucide-react';
+import React, { useEffect, useRef, useState } from "react";
+import { BarChart, Brain, Network, Activity } from "lucide-react";
 
 const stats = [
   {
     icon: <BarChart className="text-green-400" size={24} />,
     value: "100+",
-    label: "PROJECTS.EXECUTED"
+    label: "PROJECTS.EXECUTED",
   },
   {
     icon: <Brain className="text-green-400" size={24} />,
     value: "50+",
-    label: "AI.IMPLEMENTATIONS"
+    label: "AI.IMPLEMENTATIONS",
   },
   {
     icon: <Network className="text-green-400" size={24} />,
     value: "200+",
-    label: "CLIENTS.CONNECTED"
+    label: "CLIENTS.CONNECTED",
   },
   {
     icon: <Activity className="text-green-400" size={24} />,
     value: "99%",
-    label: "SYSTEM.UPTIME"
-  }
+    label: "SYSTEM.UPTIME",
+  },
 ];
 
 const StatsSection = () => {
@@ -47,14 +47,14 @@ const StatsSection = () => {
 
   useEffect(() => {
     if (!areStatsVisible) return;
-    const numericTargets = stats.map(stat => {
+    const numericTargets = stats.map((stat) => {
       const numeric = parseFloat(stat.value.replace(/[^\d.]/g, "")) || 0;
       return numeric;
     });
     const incrementSpeed = 20;
     const step = 1;
     const interval = setInterval(() => {
-      setCounts(prev => {
+      setCounts((prev) => {
         let allDone = true;
         const next = prev.map((count, i) => {
           const target = numericTargets[i];
@@ -63,7 +63,9 @@ const StatsSection = () => {
           if (count < target) {
             allDone = false;
             const incremented = count + floatStep;
-            return incremented >= target ? target : parseFloat(incremented.toFixed(1));
+            return incremented >= target
+              ? target
+              : parseFloat(incremented.toFixed(1));
           }
           return count;
         });
@@ -89,7 +91,8 @@ const StatsSection = () => {
                     {stat.icon}
                   </div>
                   <div className="text-3xl font-mono font-bold mb-2">
-                    {counts[index]}{suffix}
+                    {counts[index]}
+                    {suffix}
                   </div>
                   <div className="text-green-400/60 font-mono text-sm">
                     {stat.label}

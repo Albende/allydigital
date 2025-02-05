@@ -1,6 +1,6 @@
 // src/components/InitializeSystemOverlay.jsx
-import React, { useEffect, useState, useRef } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useState, useRef } from "react";
+import { motion } from "framer-motion";
 
 const InitializeSystemOverlay = ({ onComplete }) => {
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
@@ -11,7 +11,7 @@ const InitializeSystemOverlay = ({ onComplete }) => {
   // Matrix Rain Effect: Create a canvas-based digital rain background
   useEffect(() => {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
 
     // Set canvas size to fill the viewport
     const setCanvasSize = () => {
@@ -19,19 +19,19 @@ const InitializeSystemOverlay = ({ onComplete }) => {
       canvas.height = window.innerHeight;
     };
     setCanvasSize();
-    window.addEventListener('resize', setCanvasSize);
+    window.addEventListener("resize", setCanvasSize);
 
     // Matrix settings
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()';
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()";
     const fontSize = 16;
     const columns = Math.floor(canvas.width / fontSize);
     const drops = new Array(columns).fill(1);
 
     const drawMatrix = () => {
       // Fade effect to create trails
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#0F0';
+      ctx.fillStyle = "#0F0";
       ctx.font = `${fontSize}px monospace`;
 
       for (let i = 0; i < drops.length; i++) {
@@ -46,7 +46,7 @@ const InitializeSystemOverlay = ({ onComplete }) => {
     };
 
     drawMatrix();
-    return () => window.removeEventListener('resize', setCanvasSize);
+    return () => window.removeEventListener("resize", setCanvasSize);
   }, []);
 
   // Circular progress indicator parameters
@@ -63,12 +63,12 @@ const InitializeSystemOverlay = ({ onComplete }) => {
       // Update CSS variables to reposition the radial gradient
       const xPercent = ((e.clientX / window.innerWidth) * 100).toFixed(2);
       const yPercent = ((e.clientY / window.innerHeight) * 100).toFixed(2);
-      document.documentElement.style.setProperty('--mouse-x', `${xPercent}%`);
-      document.documentElement.style.setProperty('--mouse-y', `${yPercent}%`);
+      document.documentElement.style.setProperty("--mouse-x", `${xPercent}%`);
+      document.documentElement.style.setProperty("--mouse-y", `${yPercent}%`);
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   // Remove each ripple after its 1-second animation completes
@@ -94,7 +94,7 @@ const InitializeSystemOverlay = ({ onComplete }) => {
       <canvas
         ref={canvasRef}
         className="absolute inset-0 z-0"
-        style={{ background: 'black' }}
+        style={{ background: "black" }}
       />
 
       {/* Animated mouse effects layer */}
@@ -104,7 +104,7 @@ const InitializeSystemOverlay = ({ onComplete }) => {
           className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0,255,128,0.1) 0%, transparent 70%)',
+              "radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0,255,128,0.1) 0%, transparent 70%)",
           }}
         />
         {/* Vertical animated data streams */}
@@ -117,8 +117,8 @@ const InitializeSystemOverlay = ({ onComplete }) => {
                 left: `${i * 5}%`,
                 animationDuration: `${2 + Math.random() * 2}s`,
                 animationDelay: `${i * 0.1}s`,
-                transform: 'translateY(-100%)',
-                animation: 'dataStream 3s linear infinite',
+                transform: "translateY(-100%)",
+                animation: "dataStream 3s linear infinite",
               }}
             />
           ))}
@@ -131,9 +131,9 @@ const InitializeSystemOverlay = ({ onComplete }) => {
             style={{
               left: ripple.x,
               top: ripple.y,
-              width: '20px',
-              height: '20px',
-              transform: 'translate(-50%, -50%)',
+              width: "20px",
+              height: "20px",
+              transform: "translate(-50%, -50%)",
             }}
           />
         ))}
@@ -153,7 +153,7 @@ const InitializeSystemOverlay = ({ onComplete }) => {
               className="transform -rotate-90"
               initial={{ strokeDashoffset: circumference }}
               animate={{ strokeDashoffset: 0 }}
-              transition={{ duration: 4, ease: 'easeInOut' }}
+              transition={{ duration: 4, ease: "easeInOut" }}
               onAnimationComplete={() => {
                 setShowSuccessMsg(true);
                 // Wait 1 second to show the success message before fading out

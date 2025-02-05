@@ -1,5 +1,5 @@
 // src/components/HeroSection.jsx
-import React from 'react';
+import React from "react";
 
 const HeroSection = ({ onInitialize }) => {
   return (
@@ -12,7 +12,7 @@ const HeroSection = ({ onInitialize }) => {
             className="border border-green-500/20"
             style={{
               animation: `pulse ${2 + Math.random() * 2}s infinite`,
-              animationDelay: `${Math.random() * 2}s`
+              animationDelay: `${Math.random() * 2}s`,
             }}
           />
         ))}
@@ -30,8 +30,9 @@ const HeroSection = ({ onInitialize }) => {
         </h1>
 
         <p className="text-lg md:text-xl text-green-300/80 mb-12 max-w-3xl mx-auto font-mono">
-          We transform your ideas into dynamic digital solutions. With creativity, technology,
-          and AI-driven insights, we deliver results that set your brand apart.
+          We transform your ideas into dynamic digital solutions. With
+          creativity, technology, and AI-driven insights, we deliver results
+          that set your brand apart.
         </p>
 
         <div className="flex justify-center gap-6">

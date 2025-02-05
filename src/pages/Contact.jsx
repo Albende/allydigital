@@ -1,10 +1,42 @@
 // src/pages/Contact.jsx
-import React from 'react';
-import { MapPin, Mail, Phone, Send, Zap } from 'lucide-react';
-import NavBar from '../components/NavBar';
-import AnimatedBackground from '../components/AnimatedBackground';
+import React, { useState } from "react";
+import { MapPin, Mail, Phone, Send, Zap } from "lucide-react";
+import NavBar from "../components/NavBar";
+import AnimatedBackground from "../components/AnimatedBackground";
 
 const Contact = () => {
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [status, setStatus] = useState(null);
+
+  // Update state on input change
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("sending");
+    try {
+      const res = await fetch("/.netlify/functions/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const result = await res.json();
+      if (res.ok) {
+        setStatus("success");
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        setStatus(`error: ${result.error}`);
+      }
+    } catch (error) {
+      setStatus(`error: ${error.toString()}`);
+    }
+  };
+
   return (
     <div className="relative min-h-screen bg-gray-900 text-green-400 flex flex-col">
       <AnimatedBackground />
@@ -22,8 +54,8 @@ const Contact = () => {
                 className="absolute w-px bg-gradient-to-b from-transparent via-green-500/40 to-transparent"
                 style={{
                   left: `${i * 6}%`,
-                  animation: 'dataStream 6s linear infinite',
-                  animationDelay: `${i * 0.4}s`
+                  animation: "dataStream 6s linear infinite",
+                  animationDelay: `${i * 0.4}s`,
                 }}
               />
             ))}
@@ -34,7 +66,8 @@ const Contact = () => {
               GET.IN.TOUCH
             </h1>
             <p className="text-green-300/60 mt-4 mb-6 font-mono">
-              We’re ready to connect. Let’s bring your ideas to life in the <strong>AIORBIS.TECH</strong>.
+              We’re ready to connect. Let’s bring your ideas to life in the{" "}
+              <strong>AIORBIS.TECH</strong>.
             </p>
             {/* Quick CTA button */}
             <a
@@ -55,52 +88,74 @@ const Contact = () => {
               <div className="text-2xl md:text-3xl font-bold font-mono mb-6">
                 TRANSMIT.MESSAGE
               </div>
-              <form className="space-y-6 font-mono">
+              <form className="space-y-6 font-mono" onSubmit={handleSubmit}>
                 <div className="relative">
                   <input
                     type="text"
+                    name="name"
                     placeholder="ENTER.NAME"
+                    value={formData.name}
+                    onChange={handleChange}
                     className="w-full bg-transparent border border-green-500/30 px-4 py-3 text-green-400 placeholder-green-500/50 focus:border-green-400 transition-colors"
+                    required
                   />
                   <div className="absolute inset-0 bg-green-500/5 pointer-events-none" />
                 </div>
                 <div className="relative">
                   <input
                     type="email"
+                    name="email"
                     placeholder="ENTER.EMAIL"
+                    value={formData.email}
+                    onChange={handleChange}
                     className="w-full bg-transparent border border-green-500/30 px-4 py-3 text-green-400 placeholder-green-500/50 focus:border-green-400 transition-colors"
+                    required
                   />
                   <div className="absolute inset-0 bg-green-500/5 pointer-events-none" />
                 </div>
                 <div className="relative">
                   <textarea
                     rows="5"
+                    name="message"
                     placeholder="ENTER.MESSAGE"
+                    value={formData.message}
+                    onChange={handleChange}
                     className="w-full bg-transparent border border-green-500/30 px-4 py-3 text-green-400 placeholder-green-500/50 focus:border-green-400 transition-colors"
+                    required
                   ></textarea>
                   <div className="absolute inset-0 bg-green-500/5 pointer-events-none" />
                 </div>
                 <button
                   type="submit"
                   className="relative inline-flex items-center gap-2 px-6 py-3 bg-green-500 text-gray-900 hover:bg-green-400 transition-colors font-bold"
+                  disabled={status === "sending"}
                 >
                   <Send size={18} />
-                  SEND
+                  {status === "sending" ? "Sending..." : "SEND"}
                 </button>
+                {status && status !== "sending" && (
+                  <p className="mt-2 text-sm text-green-300">
+                    {status === "success" ? "Message sent successfully!" : status}
+                  </p>
+                )}
               </form>
             </div>
 
             {/* Contact Info / Location */}
             <div className="text-green-300/80 space-y-8">
               <div>
-                <h3 className="text-xl font-mono font-bold mb-2">LOCATION.DATA</h3>
+                <h3 className="text-xl font-mono font-bold mb-2">
+                  LOCATION.DATA
+                </h3>
                 <p className="flex items-center gap-2">
                   <MapPin size={18} className="text-green-400" />
                   123 Innovation Lane, Creative City, USA
                 </p>
               </div>
               <div>
-                <h3 className="text-xl font-mono font-bold mb-2">DIRECT.CONTACT</h3>
+                <h3 className="text-xl font-mono font-bold mb-2">
+                  DIRECT.CONTACT
+                </h3>
                 <p className="flex items-center gap-2">
                   <Mail size={18} className="text-green-400" />
                   hello@aiorbis.tech
@@ -111,7 +166,9 @@ const Contact = () => {
                 </p>
               </div>
               <div>
-                <h3 className="text-xl font-mono font-bold mb-2">HOURS.OF.OPERATION</h3>
+                <h3 className="text-xl font-mono font-bold mb-2">
+                  HOURS.OF.OPERATION
+                </h3>
                 <p>Mon - Fri: 8:00 - 19:00 (ET)</p>
                 <p>Sat - Sun: By Appointment</p>
               </div>
@@ -128,8 +185,12 @@ const Contact = () => {
       </div>
       <style jsx global>{`
         @keyframes dataStream {
-          0% { transform: translateY(-100%); }
-          100% { transform: translateY(100%); }
+          0% {
+            transform: translateY(-100%);
+          }
+          100% {
+            transform: translateY(100%);
+          }
         }
         .glitch-effect {
           position: relative;
@@ -155,30 +216,74 @@ const Contact = () => {
           animation: glitch-anim2 2s infinite linear alternate-reverse;
         }
         @keyframes glitch-anim {
-          0% { clip: rect(20px, 9999px, 40px, 0); }
-          10% { clip: rect(64px, 9999px, 90px, 0); }
-          20% { clip: rect(20px, 9999px, 30px, 0); }
-          30% { clip: rect(60px, 9999px, 90px, 0); }
-          40% { clip: rect(40px, 9999px, 60px, 0); }
-          50% { clip: rect(20px, 9999px, 80px, 0); }
-          60% { clip: rect(50px, 9999px, 70px, 0); }
-          70% { clip: rect(80px, 9999px, 100px, 0); }
-          80% { clip: rect(60px, 9999px, 70px, 0); }
-          90% { clip: rect(30px, 9999px, 50px, 0); }
-          100% { clip: rect(60px, 9999px, 80px, 0); }
+          0% {
+            clip: rect(20px, 9999px, 40px, 0);
+          }
+          10% {
+            clip: rect(64px, 9999px, 90px, 0);
+          }
+          20% {
+            clip: rect(20px, 9999px, 30px, 0);
+          }
+          30% {
+            clip: rect(60px, 9999px, 90px, 0);
+          }
+          40% {
+            clip: rect(40px, 9999px, 60px, 0);
+          }
+          50% {
+            clip: rect(20px, 9999px, 80px, 0);
+          }
+          60% {
+            clip: rect(50px, 9999px, 70px, 0);
+          }
+          70% {
+            clip: rect(80px, 9999px, 100px, 0);
+          }
+          80% {
+            clip: rect(60px, 9999px, 70px, 0);
+          }
+          90% {
+            clip: rect(30px, 9999px, 50px, 0);
+          }
+          100% {
+            clip: rect(60px, 9999px, 80px, 0);
+          }
         }
         @keyframes glitch-anim2 {
-          0% { clip: rect(60px, 9999px, 90px, 0); }
-          10% { clip: rect(30px, 9999px, 60px, 0); }
-          20% { clip: rect(40px, 9999px, 50px, 0); }
-          30% { clip: rect(20px, 9999px, 90px, 0); }
-          40% { clip: rect(60px, 9999px, 100px, 0); }
-          50% { clip: rect(50px, 9999px, 70px, 0); }
-          60% { clip: rect(90px, 9999px, 120px, 0); }
-          70% { clip: rect(40px, 9999px, 60px, 0); }
-          80% { clip: rect(10px, 9999px, 70px, 0); }
-          90% { clip: rect(80px, 9999px, 100px, 0); }
-          100% { clip: rect(40px, 9999px, 60px, 0); }
+          0% {
+            clip: rect(60px, 9999px, 90px, 0);
+          }
+          10% {
+            clip: rect(30px, 9999px, 60px, 0);
+          }
+          20% {
+            clip: rect(40px, 9999px, 50px, 0);
+          }
+          30% {
+            clip: rect(20px, 9999px, 90px, 0);
+          }
+          40% {
+            clip: rect(60px, 9999px, 100px, 0);
+          }
+          50% {
+            clip: rect(50px, 9999px, 70px, 0);
+          }
+          60% {
+            clip: rect(90px, 9999px, 120px, 0);
+          }
+          70% {
+            clip: rect(40px, 9999px, 60px, 0);
+          }
+          80% {
+            clip: rect(10px, 9999px, 70px, 0);
+          }
+          90% {
+            clip: rect(80px, 9999px, 100px, 0);
+          }
+          100% {
+            clip: rect(40px, 9999px, 60px, 0);
+          }
         }
       `}</style>
     </div>

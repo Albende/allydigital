@@ -1,5 +1,5 @@
 // src/components/AboutSection.jsx
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 
 const AboutSection = () => {
   const aboutRef = useRef(null);
@@ -9,7 +9,7 @@ const AboutSection = () => {
   const aboutParagraphs = [
     "At AIOrbis Digital Agency, we transform your ideas into dynamic digital solutions. Whether you're a small business seeking growth, a tech startup scaling your innovations, or an enterprise optimizing operations, we empower your journey.",
     "We’re not just a service provider; we’re your orbis in the digital landscape. Our blend of creativity, technology, and AI-driven insights delivers results that set your brand apart.",
-    "We’re passionate about staying ahead of the curve, ensuring our clients leverage the latest tools and strategies to excel in competitive markets."
+    "We’re passionate about staying ahead of the curve, ensuring our clients leverage the latest tools and strategies to excel in competitive markets.",
   ];
 
   useEffect(() => {
@@ -78,21 +78,25 @@ const AboutSection = () => {
             <div className="border border-green-500/30 p-4 bg-gray-900/60">
               <h3 className="font-mono text-lg font-bold mb-2">Our Mission</h3>
               <p className="text-green-300/80 text-sm md:text-base leading-relaxed">
-                To empower businesses with innovative, AI-powered digital solutions that drive growth,
-                foster connections, and deliver measurable results.
+                To empower businesses with innovative, AI-powered digital
+                solutions that drive growth, foster connections, and deliver
+                measurable results.
               </p>
             </div>
 
             <div className="border border-green-500/30 p-4 bg-gray-900/60">
               <h3 className="font-mono text-lg font-bold mb-2">Our Vision</h3>
               <p className="text-green-300/80 text-sm md:text-base leading-relaxed">
-                To be the leading digital agency known for integrating advanced AI capabilities
-                with creative strategies, redefining how businesses engage their audiences and optimize operations.
+                To be the leading digital agency known for integrating advanced
+                AI capabilities with creative strategies, redefining how
+                businesses engage their audiences and optimize operations.
               </p>
             </div>
 
             <div className="border border-green-500/30 p-4 bg-gray-900/60">
-              <h3 className="font-mono text-lg font-bold mb-2">What Sets Us Apart</h3>
+              <h3 className="font-mono text-lg font-bold mb-2">
+                What Sets Us Apart
+              </h3>
               <ul className="list-disc list-inside text-green-300/80 space-y-1 text-sm md:text-base">
                 <li>AI-Driven Innovation</li>
                 <li>Tailored Strategies</li>

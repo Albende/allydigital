@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Activity, Menu, X } from 'lucide-react';
+import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Activity, Menu, X } from "lucide-react";
 
 const NavBar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -11,18 +11,22 @@ const NavBar = () => {
 
   // Handler for the “Contact” item
   const handleContactClick = () => {
-    // If we are currently on the landing page ("/"), scroll to #contact
-    if (location.pathname === '/') {
-      setMobileMenuOpen(false); // close mobile menu if open
-      // use an anchor link approach:
-      const contactSection = document.getElementById('contact');
-      if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      // Otherwise, navigate to /contact
+    if (location.pathname === "/") {
+      // If already on the landing page, update URL and scroll to #contact
       setMobileMenuOpen(false);
-      navigate('/contact');
+      window.history.pushState({}, "", "/#contact"); // Update URL
+      const contactSection = document.getElementById("contact");
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      // If on a different page, navigate to the separate /contact page
+      setMobileMenuOpen(false);
+      navigate("/contact"); // Go to the Contact Page
     }
   };
+  
+  
 
   return (
     <nav className="fixed w-full z-50 bg-gray-900/80 backdrop-blur border-b border-green-500/20">
@@ -30,13 +34,19 @@ const NavBar = () => {
         <div className="flex justify-between h-16 items-center">
           {/* Logo/Brand */}
           <div className="flex items-center space-x-2">
-            <Link to="/" className="flex items-center space-x-2">
-                <Activity className="text-green-400" />
-                <span className="text-2xl font-mono font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-emerald-500">
-      AIORBIS.TECH
-                </span>
-            </Link>
-        </div>
+            <button
+              onClick={() => {
+                navigate("/"); // Navigate to home page
+                window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top smoothly
+              }}
+              className="flex items-center space-x-2"
+            >
+              <Activity className="text-green-400" />
+              <span className="text-2xl font-mono font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-emerald-500">
+                AIORBIS.TECH
+              </span>
+            </button>
+          </div>
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
