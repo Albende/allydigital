@@ -1,19 +1,20 @@
 import React, {
   useState,
   useEffect,
-  useRef,
   useLayoutEffect,
+  useRef,
 } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const SubServiceItem = ({ service, index, activeIndex, setActiveIndex }) => {
   const [isMobile, setIsMobile] = useState(false);
-  const [contentHeight, setContentHeight] = useState(0);
   const contentRef = useRef(null);
+  const [measuredHeight, setMeasuredHeight] = useState(0);
 
+  // This card is "active" if its index matches activeIndex
   const isActive = activeIndex === index;
 
-  // --- 1) Detect Mobile ---
+  // 1) Determine if we're on mobile
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
@@ -21,30 +22,27 @@ const SubServiceItem = ({ service, index, activeIndex, setActiveIndex }) => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // --- 2) Measure Height in useLayoutEffect ---
+  // 2) Measure the content height when opening. UseLayoutEffect = before paint
   useLayoutEffect(() => {
-    if (contentRef.current) {
-      if (isActive) {
-        setContentHeight(contentRef.current.scrollHeight);
-      } else {
-        setContentHeight(0);
-      }
+    if (contentRef.current && isActive) {
+      // Only measure if active; store it in measuredHeight
+      setMeasuredHeight(contentRef.current.scrollHeight);
     }
+    // If it goes inactive, don’t immediately set to 0 here;
+    // let Framer Motion handle going from measuredHeight → 0 in exit
   }, [isActive]);
 
-  // --- 3) Event Handlers ---
+  // 3) Mouse handlers for desktop
   const handleMouseEnter = () => {
-    // only for desktop
     if (!isMobile) setActiveIndex(index);
   };
 
   const handleMouseLeave = () => {
-    // only for desktop
     if (!isMobile) setActiveIndex(null);
   };
 
+  // 4) Click handler for mobile
   const handleClick = () => {
-    // only for mobile
     if (isMobile) {
       setActiveIndex(isActive ? null : index);
     }
@@ -64,11 +62,12 @@ const SubServiceItem = ({ service, index, activeIndex, setActiveIndex }) => {
         className="border border-green-500/30 bg-gray-900/80 p-6 relative overflow-hidden"
         initial={{ borderRadius: 12 }}
         animate={{
-          // -- 4) Disable scale/boxShadow on mobile for better performance
+          // Scale or shadows only if not mobile
           scale: isActive && !isMobile ? 1.05 : 1,
-          boxShadow: isActive && !isMobile
-            ? "0px 6px 30px rgba(16, 185, 129, 0.6)"
-            : "none",
+          boxShadow:
+            isActive && !isMobile
+              ? "0px 6px 30px rgba(16, 185, 129, 0.6)"
+              : "none",
           background: isActive
             ? "linear-gradient(135deg, rgba(16,185,129,0.2), rgba(16,185,129,0.05))"
             : "rgba(17, 24, 39, 0.8)",
@@ -77,10 +76,7 @@ const SubServiceItem = ({ service, index, activeIndex, setActiveIndex }) => {
               ? "brightness(0.7)"
               : "brightness(1)",
         }}
-        transition={{
-          duration: 0.3,
-          ease: "easeInOut",
-        }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
       >
         <div className="mb-4 w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center transition-all duration-300">
           {service.icon}
@@ -92,16 +88,18 @@ const SubServiceItem = ({ service, index, activeIndex, setActiveIndex }) => {
           {service.description}
         </p>
 
-        {/* 5) Animated collapsible area */}
+        {/* 5) AnimatePresence for collapse/expand */}
         <AnimatePresence initial={false}>
           {isActive && (
             <motion.div
               className="mt-4 overflow-hidden"
+              // for the "enter" animation
               initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: contentHeight }}
+              animate={{ opacity: 1, height: measuredHeight }}
+              // for the "exit" animation
               exit={{ opacity: 0, height: 0 }}
               transition={{
-                duration: 0.3,
+                duration: 0.35,
                 ease: "easeInOut",
               }}
             >
