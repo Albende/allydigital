@@ -6,31 +6,34 @@ const AnimatedBackground = () => {
   const [ripples, setRipples] = useState([]);
 
   useEffect(() => {
+    const isCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-    let particles = [];
-    const numParticles = 75; // More particles for a richer effect
 
-    // Initialize particles with random positions, drift, opacity, and a random digit
+    // Reduce the particle count if on a coarse pointer (mobile/tablet)
+    const numParticles = isCoarsePointer ? 25 : 75;
+    let particles = [];
+
+    // === Initialize Particles ===
     const initParticles = (width, height) => {
-      const parts = [];
+      const newParticles = [];
       for (let i = 0; i < numParticles; i++) {
-        const radius = Math.random() * 12 + 5; // Used to determine font size
-        parts.push({
+        const radius = Math.random() * 12 + 5; // used to determine font size
+        newParticles.push({
           x: Math.random() * width,
           y: Math.random() * height,
           radius,
-          dx: (Math.random() - 0.5) * 0.3, // Smooth drift
+          dx: (Math.random() - 0.5) * 0.3, // smooth drift
           dy: (Math.random() - 0.5) * 0.3,
-          alpha: Math.random() * 0.5 + 0.5, // Opacity between 0.5 and 1
-          digit: Math.floor(Math.random() * 10).toString(), // Random digit 0-9
-          lifetime: Math.random() * 200 + 100, // How long before changing digit
+          alpha: Math.random() * 0.5 + 0.5, // 0.5 to 1
+          digit: Math.floor(Math.random() * 10).toString(), // random digit
+          lifetime: Math.random() * 200 + 100, // how long before digit changes
         });
       }
-      return parts;
+      return newParticles;
     };
 
-    // Resize canvas dynamically
+    // === Resize Handler ===
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -39,6 +42,7 @@ const AnimatedBackground = () => {
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
+    // === Update Particles ===
     const updateParticles = () => {
       particles.forEach((p) => {
         p.x += p.dx;
@@ -50,11 +54,12 @@ const AnimatedBackground = () => {
         p.lifetime--;
         if (p.lifetime <= 0) {
           p.digit = Math.floor(Math.random() * 10).toString();
-          p.lifetime = Math.random() * 200 + 100; // Reset lifetime
+          p.lifetime = Math.random() * 200 + 100;
         }
       });
     };
 
+    // === Draw Particles ===
     const drawParticles = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = "black";
@@ -86,7 +91,11 @@ const AnimatedBackground = () => {
     };
   }, []);
 
+  // === Handle Ripples (only on non-coarse pointer) ===
   useEffect(() => {
+    const isCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
+    if (isCoarsePointer) return; // Skip adding ripple events on mobile / coarse pointer
+
     const handleMouseMove = (e) => {
       const newRipple = { x: e.clientX, y: e.clientY, id: Date.now() };
       setRipples((prev) => [...prev, newRipple]);
@@ -101,6 +110,7 @@ const AnimatedBackground = () => {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  // === Remove Oldest Ripple after 1200ms ===
   useEffect(() => {
     if (ripples.length === 0) return;
     const timer = setTimeout(() => {
@@ -111,13 +121,16 @@ const AnimatedBackground = () => {
 
   return (
     <div className="fixed inset-0 pointer-events-none">
+      {/* Canvas with background and digits */}
       <canvas
         ref={canvasRef}
         className="w-full h-full"
         style={{ background: "black", filter: "blur(2px)" }}
       />
 
+      {/* Overlays */}
       <div className="absolute inset-0">
+        {/* Radial gradient that follows mouse – won't appear on mobile */}
         <div
           className="absolute inset-0"
           style={{
@@ -126,6 +139,7 @@ const AnimatedBackground = () => {
           }}
         />
 
+        {/* Vertical "data streams" */}
         <div className="absolute inset-0 opacity-25">
           {Array.from({ length: 25 }).map((_, i) => (
             <div
@@ -142,6 +156,7 @@ const AnimatedBackground = () => {
           ))}
         </div>
 
+        {/* Ripple circles (only on desktop pointer) */}
         {ripples.map((ripple) => (
           <div
             key={ripple.id}
