@@ -1,12 +1,19 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useLayoutEffect,
+} from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const SubServiceItem = ({ service, index, activeIndex, setActiveIndex }) => {
   const [isMobile, setIsMobile] = useState(false);
-  const contentRef = useRef(null);
-  const isActive = activeIndex === index;
   const [contentHeight, setContentHeight] = useState(0);
+  const contentRef = useRef(null);
 
+  const isActive = activeIndex === index;
+
+  // --- 1) Detect Mobile ---
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
@@ -14,23 +21,30 @@ const SubServiceItem = ({ service, index, activeIndex, setActiveIndex }) => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  useEffect(() => {
-    if (isActive && contentRef.current) {
-      setContentHeight(contentRef.current.scrollHeight);
-    } else {
-      setContentHeight(0);
+  // --- 2) Measure Height in useLayoutEffect ---
+  useLayoutEffect(() => {
+    if (contentRef.current) {
+      if (isActive) {
+        setContentHeight(contentRef.current.scrollHeight);
+      } else {
+        setContentHeight(0);
+      }
     }
   }, [isActive]);
 
+  // --- 3) Event Handlers ---
   const handleMouseEnter = () => {
+    // only for desktop
     if (!isMobile) setActiveIndex(index);
   };
 
   const handleMouseLeave = () => {
+    // only for desktop
     if (!isMobile) setActiveIndex(null);
   };
 
   const handleClick = () => {
+    // only for mobile
     if (isMobile) {
       setActiveIndex(isActive ? null : index);
     }
@@ -50,14 +64,23 @@ const SubServiceItem = ({ service, index, activeIndex, setActiveIndex }) => {
         className="border border-green-500/30 bg-gray-900/80 p-6 relative overflow-hidden"
         initial={{ borderRadius: 12 }}
         animate={{
-          scale: isActive && !isMobile ? 1.05 : 1, // scale on desktop only
-          boxShadow: isActive ? "0px 6px 30px rgba(16, 185, 129, 0.6)" : "none",
+          // -- 4) Disable scale/boxShadow on mobile for better performance
+          scale: isActive && !isMobile ? 1.05 : 1,
+          boxShadow: isActive && !isMobile
+            ? "0px 6px 30px rgba(16, 185, 129, 0.6)"
+            : "none",
           background: isActive
             ? "linear-gradient(135deg, rgba(16,185,129,0.2), rgba(16,185,129,0.05))"
             : "rgba(17, 24, 39, 0.8)",
-          filter: !isActive && activeIndex !== null ? "brightness(0.7)" : "brightness(1)",
+          filter:
+            !isActive && activeIndex !== null
+              ? "brightness(0.7)"
+              : "brightness(1)",
         }}
-        transition={{ type: "spring", stiffness: 150, damping: 20 }}
+        transition={{
+          duration: 0.3,
+          ease: "easeInOut",
+        }}
       >
         <div className="mb-4 w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center transition-all duration-300">
           {service.icon}
@@ -69,7 +92,8 @@ const SubServiceItem = ({ service, index, activeIndex, setActiveIndex }) => {
           {service.description}
         </p>
 
-        <AnimatePresence>
+        {/* 5) Animated collapsible area */}
+        <AnimatePresence initial={false}>
           {isActive && (
             <motion.div
               className="mt-4 overflow-hidden"
@@ -77,14 +101,14 @@ const SubServiceItem = ({ service, index, activeIndex, setActiveIndex }) => {
               animate={{ opacity: 1, height: contentHeight }}
               exit={{ opacity: 0, height: 0 }}
               transition={{
-                duration: 0.4,
+                duration: 0.3,
                 ease: "easeInOut",
               }}
             >
               <div ref={contentRef}>
                 <p className="text-green-200 text-sm leading-relaxed">
                   {service.fullDescription ||
-                    "Xidmət haqqında əlavə məlumatlar. Lorem ipsum..."}
+                    "Xidmət haqqında əlavə məlumatlar..."}
                 </p>
               </div>
             </motion.div>
